@@ -30,12 +30,13 @@ char* strstr_last(char *s, char *sub) {
 int main() {
     int sum = 0;
     char line[MAXLINE];
-    int first_digit = 0;
-    int first_digit_index = -1;
-    int last_digit = 0;
-    int last_digit_index = -1;
 
     while(fgets(line, sizeof(line) / sizeof(char), stdin) != NULL) {
+        int first_digit = 0;
+        int first_digit_index = -1;
+        int last_digit = 0;
+        int last_digit_index = -1;
+        
         // Check numeric substrings
         for (int i = 1; i < sizeof(digit_strings) / sizeof(char*); i++) {
 
@@ -81,8 +82,7 @@ int main() {
                 }
             }
         }
-        first_digit = first_digit_in_string(line);
-        last_digit = last_digit_in_string(line);
+
         sum += (first_digit * 10) + last_digit;
     }
 
