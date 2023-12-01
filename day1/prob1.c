@@ -13,7 +13,7 @@ int main() {
     int first_digit = 0;
     int last_digit = 0;
 
-    while(fgets(line, sizeof(line), stdin) != NULL) {
+    while(fgets(line, sizeof(line) / sizeof(char), stdin) != NULL) {
         int i = 0;
         do {
             if (isdigit(line[i])) {
