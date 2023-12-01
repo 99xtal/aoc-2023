@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+#include <time.h>
 
 #define MAXLINE 100
 
@@ -30,6 +30,9 @@ char* strstr_last(char *s, char *sub) {
 int main() {
     int sum = 0;
     char line[MAXLINE];
+
+    clock_t start_t, end_t;
+    start_t = clock();
 
     while(fgets(line, sizeof(line) / sizeof(char), stdin) != NULL) {
         int first_digit = 0;
@@ -87,4 +90,8 @@ int main() {
     }
 
     printf("%d\n", sum);
+
+    end_t = clock();
+    double total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC * 1000;
+    printf("%.2fms\n", total_t);
 }
