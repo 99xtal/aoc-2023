@@ -53,15 +53,15 @@ round* get_round_data(char* round_str) {
 int main() {
     char line[MAX_LINE];
     round_node* games[NUM_GAMES];
-    char *saveptr1, *saveptr2;
     int i = 0;
+    char *saveptr;
 
     // Load game data into array
     while(fgets(line, MAX_LINE, stdin)) {
         char *game_str = get_game_str(line);
         round_node* game_rounds = NULL;
 
-        char *round_str = strtok_r(game_str, ";", &saveptr1);
+        char *round_str = strtok_r(game_str, ";", &saveptr);
         while (round_str != NULL) {
             round* round_data = get_round_data(round_str);
 
@@ -72,7 +72,7 @@ int main() {
             new_round_node->next = temp;
             game_rounds = new_round_node;
 
-            round_str = strtok_r(NULL, ";", &saveptr1);
+            round_str = strtok_r(NULL, ";", &saveptr);
         }
 
         games[i] = game_rounds;
