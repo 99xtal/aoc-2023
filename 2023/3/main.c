@@ -1,9 +1,9 @@
 #include <ctype.h>
-#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+// Dimensions of schematic
 #define SCHEM_H 140
 #define SCHEM_W 140
 
@@ -25,19 +25,6 @@ int max(int a, int b) {
     }
 }
 
-void print_schematic(char* schem[]) {
-       for (int i=0; i<SCHEM_H; i++) {
-        for (int j=0; j < SCHEM_W; j++) {
-            printf("%c", schem[i][j]);
-        }
-        printf("\n");
-    } 
-}
-
-int compare(const void *a, const void *b) {
-    return *(int*)a - *(int*)b;
-}
-
 bool is_near_symbol(int num_x, int num_y, int num_len, char** schem) {
     int y_start = max(num_y - 1, 0);
     int y_end = min(num_y + 1, SCHEM_H - 1);
@@ -46,7 +33,7 @@ bool is_near_symbol(int num_x, int num_y, int num_len, char** schem) {
 
     for (int y = y_start; y <= y_end; y++) {
         for (int x = x_start; x <= x_end; x++) {
-            if (!isdigit(schem[y][x]) && schem[y][x] != '.' && schem[y][x] != '\n') {
+            if (!isdigit(schem[y][x]) && schem[y][x] != '.') {
                 return true;
             }
         }
@@ -71,16 +58,17 @@ int main() {
         i++;
     }
 
+    char cursor;
     int num_index = -1;
     int num_length;
     int num_value;
-    char cursor;
     int parts_sum = 0;
 
     for (int i = 0; i < SCHEM_H; i++) {
         for (int j = 0; j < SCHEM_W; j++) {
             cursor = schem[i][j];
-            printf("%c\n", cursor);
+
+            // At end of number
             if (num_index != -1 && (!isdigit(cursor) || j < num_index)) {
                 if (is_near_symbol(num_index, i, num_length, schem)) {
                     parts_sum += num_value;
@@ -91,6 +79,7 @@ int main() {
                 num_value = 0; 
             }
 
+            // At start of number
             if (num_index == -1 && isdigit(cursor)) {
                 num_index = j;
                 num_length = 1;
