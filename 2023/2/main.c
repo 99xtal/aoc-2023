@@ -50,6 +50,77 @@ round* get_round_data(char* round_str) {
     return new_round;
 }
 
+// Part 1
+int calculate_valid_game_sum(round_node* games[NUM_GAMES]) {
+    int game_id_sum = 0;
+    int r_max = 12;
+    int g_max = 13;
+    int b_max = 14;
+
+    for (int i = 0; i < NUM_GAMES; i++) {
+        round_node* game_rounds = games[i];
+        int is_valid = 1;
+        for (round_node* round = game_rounds; round != NULL; round = round->next) {
+            if (
+                round->data->r_num > r_max ||
+                round->data->g_num > g_max ||
+                round->data->b_num > b_max
+            ) {
+                is_valid = 0;
+                break;
+            }
+        }
+        if (is_valid) {
+            int game_id = i + 1;
+            game_id_sum += game_id;
+        }
+    }
+
+    return game_id_sum;
+}
+
+round* get_min_set(round_node* game_rounds) {
+    int r_min, g_min, b_min;
+    r_min = game_rounds->data->r_num;
+    g_min = game_rounds->data->g_num;
+    b_min = game_rounds->data->b_num;
+
+    for (round_node* round = game_rounds; round != NULL; round = round->next) {
+        if (round->data->r_num > r_min) {
+            r_min = round->data->r_num;
+        }
+        if (round->data->g_num > g_min) {
+            g_min = round->data->g_num;
+        }
+        if (round->data->b_num > b_min) {
+            b_min = round->data->b_num;
+        }
+    }
+
+    round* min_data = (round*)malloc(sizeof(round));
+    min_data->r_num = r_min;
+    min_data->g_num = g_min;
+    min_data->b_num = b_min;
+    return min_data;
+}
+
+int round_powers(round* round) {
+    return round->r_num * round->g_num * round->b_num;
+}
+
+// Part 2
+int get_min_set_powers_sum(round_node* games[NUM_GAMES]) {
+    int power_sum = 0;
+
+    for (int i = 0; i < NUM_GAMES; i++) {
+        round_node* rounds = games[i];
+        round* min_set = get_min_set(rounds);
+        power_sum += round_powers(min_set);
+    }
+
+    return power_sum;
+}
+
 int main() {
     char line[MAX_LINE];
     round_node* games[NUM_GAMES];
@@ -79,31 +150,7 @@ int main() {
         i++;
     }
 
-    int game_id_sum = 0;
-    int r_max = 12;
-    int g_max = 13;
-    int b_max = 14;
-
-    // Check game rounds
-    for (int i = 0; i < NUM_GAMES; i++) {
-        round_node* game_rounds = games[i];
-        int is_valid = 1;
-        for (round_node* round = game_rounds; round != NULL; round = round->next) {
-            if (
-                round->data->r_num > r_max ||
-                round->data->g_num > g_max ||
-                round->data->b_num > b_max
-            ) {
-                is_valid = 0;
-                break;
-            }
-        }
-        if (is_valid) {
-            int game_id = i + 1;
-            game_id_sum += game_id;
-        }
-    }
-
-    printf("%d\n", game_id_sum);
+    printf("%d\n", calculate_valid_game_sum(games));
+    printf("%d\n", get_min_set_powers_sum(games));
     return 0;
 }
