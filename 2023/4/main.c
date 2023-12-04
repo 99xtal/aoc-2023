@@ -65,7 +65,7 @@ int main() {
         if (card_id_str != NULL) {
             for (char* p = card_id_str; *p != '\0'; p++) {
                 if (isdigit(*p)) {
-                    card_id = (card_id * 10) + atoi(p);
+                    card_id = (card_id * 10) + (*p - '0');
                 }
             }
         }
