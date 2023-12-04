@@ -9,12 +9,6 @@
 #define NUM_WINNING 10
 #define NUM_OWN 25
 
-typedef struct card_node {
-    int card_id;
-    int matches;
-    struct card_node *next;
-} card_node;
-
 void read_string_into_num_array(int* dest, int length, char* string) {
     int i = 0;
     char* source;
