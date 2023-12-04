@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,14 +23,14 @@ void read_string_into_num_array(int* dest, int length, char* string) {
     }
 }
 
-int get_card_points(char* card) {
+int get_num_matches(char* card) {
     char* winning_str;
     char* own_str;
     int winning_nums[NUM_WINNING];
     int own_nums[NUM_OWN];
     char *saveptr;
     int i, j;
-    int points = 0;
+    int num_matches = 0;
 
     winning_str = strtok_r(card, "|", &saveptr);
     own_str = strtok_r(NULL, "|", &saveptr);
@@ -40,16 +41,12 @@ int get_card_points(char* card) {
     for (i = 0; i < NUM_WINNING; i++) {
         for (j = 0; j < NUM_OWN; j++) {
             if (winning_nums[i] == own_nums[j]) {
-                if (points == 0) {
-                    points = 1;
-                } else {
-                    points *= 2;
-                }
+                num_matches++;
             }
         }
     }
 
-    return points;
+    return num_matches;
 }
 
 int main() {
@@ -71,7 +68,9 @@ int main() {
         }
 
         char* card = strtok_r(NULL, ":", &saveptr);
-        points = get_card_points(card);
+        int num_matches = get_num_matches(card);
+        points = num_matches >= 2 ? pow(2, num_matches - 1) : num_matches;
+        printf("%d:\tm:%d\tp:%d\n", card_id, num_matches, points);
         points_sum += points;
     }
 
