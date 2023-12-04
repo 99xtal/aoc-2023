@@ -5,8 +5,15 @@
 #include <string.h>
 
 #define MAX_LINE 256
+#define NUM_CARDS 205
 #define NUM_WINNING 10
 #define NUM_OWN 25
+
+typedef struct card_node {
+    int card_id;
+    int matches;
+    struct card_node *next;
+} card_node;
 
 void read_string_into_num_array(int* dest, int length, char* string) {
     int i = 0;
@@ -51,6 +58,8 @@ int get_num_matches(char* card) {
 
 int main() {
     char line[MAX_LINE];
+    int card_matches_t[NUM_CARDS + 1];
+    int card_nums_t[NUM_CARDS + 1];
     char* saveptr;
     int points_sum = 0;
 
@@ -72,8 +81,28 @@ int main() {
         points = num_matches >= 2 ? pow(2, num_matches - 1) : num_matches;
         printf("%d:\tm:%d\tp:%d\n", card_id, num_matches, points);
         points_sum += points;
+
+        card_matches_t[card_id] = num_matches;
+    }
+
+    for (int i=0; i <= NUM_CARDS; i++) {
+        card_nums_t[i] = 1;
+    } 
+
+    for (int i = 1; i <= NUM_CARDS; i++) {
+        int card_id = i;
+        int num_matches = card_matches_t[card_id];
+        for (int j = card_id + 1; j <= card_id + num_matches; j++) {
+            card_nums_t[j] += card_nums_t[i];
+        }
+    }
+
+    int won_cards = 0;
+    for (int i = 1; i <= NUM_CARDS; i++) {
+        won_cards += card_nums_t[i];
     }
 
     printf("%d\n", points_sum);
+    printf("%d\n", won_cards);
     return 0;
 }
