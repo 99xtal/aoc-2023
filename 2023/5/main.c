@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define NUM_SEEDS 20
 
@@ -132,6 +133,8 @@ int main(void) {
     printf("%llu\n", lowest);
 
     printf("Part 2\n");
+    clock_t start_t, end_t;
+    start_t = clock();
 
     uint64_t seed, range;
     uint64_t new_lowest = 0;
@@ -153,6 +156,10 @@ int main(void) {
             }
         }
     }
+    
+    end_t = clock();
+    double total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+    printf("Part 2 Execution: %.2fs\n", total_t);
 
     printf("%llu\n", new_lowest);
     return 0;
