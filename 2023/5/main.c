@@ -29,7 +29,7 @@ typedef struct map {
 uint64_t get_dest_from_map(uint64_t source, node* maps) {
     for (node* p = maps; p != NULL; p = p->next) {
         map* data = (map*)p->data;
-        if (source >= data->source_range_st && source <= data->source_range_st + data->range_length) {
+        if (source >= data->source_range_st && source < data->source_range_st + data->range_length) {
             return (source - data->source_range_st) + data->dest_range_st;
         }
     }
@@ -130,5 +130,30 @@ int main(void) {
     }
 
     printf("%llu\n", lowest);
+
+    printf("Part 2\n");
+
+    uint64_t seed, range;
+    uint64_t new_lowest = 0;
+    for (int i = 0; i < NUM_SEEDS; i += 2) {
+        seed = seeds[i];
+        range = seeds[i+1];
+        printf("Seed %d: start: %llu\t end:%llu\n", i+1, seed, seed + range - 1);
+        for (u_int64_t j = seed; j < seed + range; j++) {
+            uint64_t soil = get_dest_from_map(j, seed_to_soil_maps);
+            uint64_t fert = get_dest_from_map(soil, soil_to_fert_maps);
+            uint64_t water = get_dest_from_map(fert, fert_to_water_maps);
+            uint64_t light = get_dest_from_map(water, water_to_light_maps);
+            uint64_t temp = get_dest_from_map(light, light_to_temp_maps);
+            uint64_t hum = get_dest_from_map(temp, temp_to_hum_maps);
+            uint64_t loc = get_dest_from_map(hum, hum_to_loc_maps);
+            if (loc < new_lowest || new_lowest == 0) {
+                new_lowest = loc;
+                printf("New lowest: seed: %llu, loc: %llu\n", j, new_lowest);
+            }
+        }
+    }
+
+    printf("%llu\n", new_lowest);
     return 0;
 }
