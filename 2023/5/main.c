@@ -115,7 +115,7 @@ int main(void) {
         }
     }
 
-    uint64_t locations[NUM_SEEDS];
+    uint64_t lowest = 0;
     for (int i = 0; i < NUM_SEEDS; i++) {
         uint64_t soil = get_dest_from_map(seeds[i], seed_to_soil_maps);
         uint64_t fert = get_dest_from_map(soil, soil_to_fert_maps);
@@ -124,13 +124,9 @@ int main(void) {
         uint64_t temp = get_dest_from_map(light, light_to_temp_maps);
         uint64_t hum = get_dest_from_map(temp, temp_to_hum_maps);
         uint64_t loc = get_dest_from_map(hum, hum_to_loc_maps);
-        locations[i] = loc;
-    }
-
-    uint64_t lowest = locations[0];
-    for (int i = 1; i < NUM_SEEDS; i++) {
-        if (locations[i] < lowest)
-            lowest = locations[i];
+        if (loc < lowest || lowest == 0) {
+            lowest = loc;
+        }
     }
 
     printf("%llu\n", lowest);
