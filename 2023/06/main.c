@@ -4,12 +4,12 @@
 #define NUM_RACES 4
 
 // Combined times from input (Part 2)
-#define TIME_NUM 59707878L
+#define TIME_NUM 0L
 // Combined distances from input (Part 2)
-#define DISTANCE_NUM 430121812131276L
+#define DISTANCE_NUM 0L
 
 double lowest_quadratic_root(long a, long b, long c) {
-    return ((b * -1) - sqrt(b*b - 4*a*c)) / 2*a;
+    return (-b - sqrt(b*b - 4*a*c)) / 2*a;
 }
 
 /**
@@ -26,9 +26,8 @@ double lowest_quadratic_root(long a, long b, long c) {
  * the first and last n=min_speed numbers from speed;
  */
 unsigned long get_num_possible_record_breaks(unsigned long time, unsigned long rec_distance) {
-    unsigned long min_speed = ceil(lowest_quadratic_root(1, time * -1, rec_distance));
-    unsigned long num = time - (2 * min_speed) + 1;
-    return num;
+    unsigned long min_speed = ceil(lowest_quadratic_root(1, -time, rec_distance));
+    return time - (2 * min_speed) + 1;
 }
 
 int main(void) {
