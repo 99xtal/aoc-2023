@@ -1,15 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define NUM_RACES 4
 
 // Combined times from input (Part 2)
-#define TIME_NUM 0L
+#define TIME_NUM 59707878L
 // Combined distances from input (Part 2)
-#define DISTANCE_NUM 0L
+#define DISTANCE_NUM 430121812131276L
 
-double lowest_quadratic_root(long a, long b, long c) {
-    return (-b - sqrt(b*b - 4*a*c)) / 2*a;
+double* quadratic_roots(long a, long b, long c) {
+    double *roots = malloc(2*sizeof(double));
+    roots[0] = (-b - sqrt(b*b - 4*a*c)) / 2*a;
+    roots[1] = (-b + sqrt(b*b - 4*a*c)) / 2*a;
+    return roots;
 }
 
 /**
@@ -22,12 +26,15 @@ double lowest_quadratic_root(long a, long b, long c) {
  * Solving for the lowest value of speed will give the exact amount of time
  * needed to hold the button to meet the record distance.
  * 
- * To get the number of integer speeds between 0 and time (max speed), subtract
- * the first and last n=min_speed numbers from speed;
+ * The number of integer speeds between 0 and time (max speed) that beat the
+ * given distance record is equivalend to the difference in the roots (rounding
+ * each root up to the nearest natural number)
  */
 unsigned long get_num_possible_record_breaks(unsigned long time, unsigned long rec_distance) {
-    unsigned long min_speed = ceil(lowest_quadratic_root(1, -time, rec_distance));
-    return time - (2 * min_speed) + 1;
+    double *roots = quadratic_roots(1, -time, rec_distance);
+    unsigned long num = ceil(roots[1]) - ceil(roots[0]);
+    free(roots);
+    return num;
 }
 
 int main(void) {
