@@ -5,9 +5,9 @@
 #define NUM_RACES 4
 
 // Combined times from input (Part 2)
-#define TIME_NUM 59707878L
+#define TIME_NUM 0L
 // Combined distances from input (Part 2)
-#define DISTANCE_NUM 430121812131276L
+#define DISTANCE_NUM 0L
 
 double* quadratic_roots(long a, long b, long c) {
     double *roots = malloc(2*sizeof(double));
@@ -27,7 +27,7 @@ double* quadratic_roots(long a, long b, long c) {
  * needed to hold the button to meet the record distance.
  * 
  * The number of integer speeds between 0 and time (max speed) that beat the
- * given distance record is equivalend to the difference in the roots (rounding
+ * given distance record is equivalent to the difference in the roots (rounding
  * each root up to the nearest natural number)
  */
 unsigned long get_num_possible_record_breaks(unsigned long time, unsigned long rec_distance) {
