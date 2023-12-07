@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NUM_HANDS 1000
+#define NUM_HANDS 1000 
 
-char cards[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
+char cards[] = { 'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A' };
 
 enum HandType {
   High,
@@ -42,6 +42,7 @@ int get_hand_type(char hand[6]) {
   int highest = 0;
   int second_highest = 0;
   for(int i = '2'; i <= 'T'; i++) {
+    if (i == 'J') continue;
     if (card_freq[i] > highest) {
       second_highest = highest;
       highest = card_freq[i];
@@ -49,6 +50,8 @@ int get_hand_type(char hand[6]) {
       second_highest = card_freq[i];
     }
   }
+
+  highest += card_freq['J'];
 
   switch(highest) {
     case 5:
@@ -93,6 +96,11 @@ int compare_hands(const void* a, const void* b) {
   }
 
   return 0;
+}
+
+int compare_hands_with_jokers(const void*a, const void* b) {
+  char* hand_a = ((hand_t*)a)->hand;
+  char* hand_b = ((hand_t*)b)->hand;
 }
 
 int main(void) {
