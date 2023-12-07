@@ -98,11 +98,6 @@ int compare_hands(const void* a, const void* b) {
   return 0;
 }
 
-int compare_hands_with_jokers(const void*a, const void* b) {
-  char* hand_a = ((hand_t*)a)->hand;
-  char* hand_b = ((hand_t*)b)->hand;
-}
-
 int main(void) {
   hand_t hands[NUM_HANDS];
 
