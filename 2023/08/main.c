@@ -24,16 +24,6 @@ int hash(char* s) {
   return pow(26,2)*((int)s[0] - 'A') + pow(26,1)*((int)s[1] - 'A') + (int)s[2] - 'A';
 }
 
-int is_all_at_end(char* nodes[6], int size) {
-  for (int i = 0; i < size; i++) {
-    char* n = nodes[i];
-    if (n[2] != 'Z') {
-      return 0;
-    }
-  }
-  return 1;
-}
-
 int main(void) {
   char line[MAX_BUFFER];
   char* lr_instructions;

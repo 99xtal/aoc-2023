@@ -36,7 +36,7 @@ uint64_t lcm(uint64_t a, uint64_t b) {
 
 uint64_t lcm_arr(int a[], unsigned int size) {
   uint64_t result = a[0];
-  for (int i = 1; i < size; i++) {
+  for (unsigned int i = 1; i < size; i++) {
     result = lcm(a[i], result);
   }
   return result;
