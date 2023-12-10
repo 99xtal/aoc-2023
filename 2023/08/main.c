@@ -45,7 +45,7 @@ int main(void) {
   int step = 0;
   netnode_t* current_node = network_map[hash("AAA")];
   while (strcmp(current_node->node, "ZZZ") != 0) {
-    char instruction = lr_instructions[step % num_instructions-1];
+    char instruction = lr_instructions[step % num_instructions];
 
     if (instruction == 'L') {
       current_node = network_map[hash(current_node->left)];
