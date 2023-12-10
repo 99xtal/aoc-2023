@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "arith.h"
+#include "lib/arith.h"
 
 #define MAX_BUFFER 1028
 // Decimal value of ZZZ
