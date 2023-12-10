@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "arith.h"
+
 #define MAX_BUFFER 1028
 // Decimal value of ZZZ
 #define HASH_SIZE 17576
@@ -22,6 +24,16 @@ int hash(char* s) {
   return pow(26,2)*((int)s[0] - 'A') + pow(26,1)*((int)s[1] - 'A') + (int)s[2] - 'A';
 }
 
+int is_all_at_end(char* nodes[6], int size) {
+  for (int i = 0; i < size; i++) {
+    char* n = nodes[i];
+    if (n[2] != 'Z') {
+      return 0;
+    }
+  }
+  return 1;
+}
+
 int main(void) {
   char line[MAX_BUFFER];
   char* lr_instructions;
@@ -34,28 +46,55 @@ int main(void) {
   num_instructions = strlen(lr_instructions) - 1;
 
   // Read nodes into network table
+  char* starting_nodes[6];
+  int starting_counts[6];
+  int starting_count = 0;
   while(fgets(line, MAX_BUFFER, stdin) != NULL) {
     netnode_t *n = (netnode_t*)malloc(sizeof(netnode_t));
 
     sscanf(line, "%3s = (%3s, %3s)", n->node, n->left, n->right);
+    if (n->node[2] == 'A') {
+      starting_nodes[starting_count] = n->node;
+      starting_count++;
+    }
     network_map[hash(n->node)] = n;
   }
 
   // Walk network starting at "AAA"
   int step = 0;
-  netnode_t* current_node = network_map[hash("AAA")];
-  while (strcmp(current_node->node, "ZZZ") != 0) {
+  char* current_node = "AAA"; 
+  while (strcmp(current_node, "ZZZ") != 0) {
     char instruction = lr_instructions[step % num_instructions];
+    netnode_t* n = network_map[hash(current_node)];
 
     if (instruction == 'L') {
-      current_node = network_map[hash(current_node->left)];
+      current_node = n->left;
     } else if (instruction == 'R') {
-      current_node = network_map[hash(current_node->right)];
+      current_node = n->right;
     }
 
     step++;
   }
   
   printf("%d\n", step);
+
+  for (int i = 0; i < 6; i++) {
+    step = 0;
+    char* current_node = starting_nodes[i];
+    while (current_node[2] != 'Z') {
+      char instruction = lr_instructions[step % num_instructions];
+      netnode_t* n = network_map[hash(current_node)];
+
+      if (instruction == 'L') {
+        current_node = n->left;
+      } else if (instruction == 'R') {
+        current_node = n->right;
+      }
+      step++;
+    }
+    starting_counts[i] = step;
+  }
+
+  printf("%llu\n", lcm_arr(starting_counts, 6));
   return 0;
 }

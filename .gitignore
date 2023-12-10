@@ -6,6 +6,8 @@
 
 # Unignore all dirs
 !*/
+
 !Makefile
 
 *.txt
+*.o
