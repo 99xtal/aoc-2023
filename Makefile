@@ -28,6 +28,9 @@ prob7: prob7.c
 prob8: prob8.c arith.o
 	$(CC) $(CFLAGS) -o prob8 prob8.c arith.o
 
+prob9: prob9.c
+	$(CC) $(CFLAGS) -o prob9 prob9.c
+
 arith.o: lib/arith.h lib/arith.c
 	$(CC) $(CFLAGS) -c lib/arith.c
 
