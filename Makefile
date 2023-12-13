@@ -36,4 +36,4 @@ arith.o: lib/arith.h lib/arith.c
 
 clean:
 	rm *.o prob1a prob1b prob2 prob3 prob4 prob5 \
-		prob6 prob7 prob8
+		prob6 prob7 prob8 prob9 prob 10
